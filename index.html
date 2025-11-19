@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --primary-color: #ff4d00;
@@ -34,6 +35,40 @@
             --border-color: #334155;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Dark mode text visibility fixes */
+        [data-theme="dark"] .nav {
+            background: rgba(15, 23, 42, 0.95);
+        }
+        
+        [data-theme="dark"] .nav-links a {
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .footer {
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .footer a {
+            color: var(--text-light);
+        }
+        
+        /* Dark mode text visibility fixes */
+        [data-theme="dark"] .nav {
+            background: rgba(15, 23, 42, 0.95);
+        }
+        
+        [data-theme="dark"] .nav-links a {
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .footer {
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .footer a {
+            color: var(--text-light);
         }
 
         * {
@@ -104,10 +139,10 @@
             color: var(--primary-color);
         }
 
-        /* Theme Toggle - redesigned (fixed top-right) */
+        /* Theme Toggle - positioned below navigation bar */
         .theme-toggle {
-            position: fixed;
-            top: 14px;
+            position: absolute;
+            top: 100%;
             right: 16px;
             z-index: 1100;
             background: var(--bg-white);
@@ -119,8 +154,9 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
             box-shadow: var(--shadow);
+            margin-top: 10px;
         }
 
         .theme-toggle:hover { transform: scale(1.06); border-color: var(--primary-color); }
@@ -205,6 +241,62 @@
         .btn-primary:hover {
             background: #1d4ed8;
             transform: translateY(-2px);
+        }
+        
+        /* Featured Work Button hover state */
+        .featured-work-btn:hover {
+            background: var(--primary-color);
+            filter: brightness(1.2);
+            box-shadow: 0 0 15px rgba(255, 77, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Flip text animation */
+        .flip-text-container {
+            height: 40px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .flip-text {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            animation: flip 5s infinite;
+        }
+        
+        .flip-text-front, .flip-text-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .flip-text-back {
+            transform: rotateX(180deg);
+        }
+        
+        @keyframes flip {
+            0%, 45% {
+                transform: rotateX(0deg);
+            }
+            50%, 95% {
+                transform: rotateX(180deg);
+            }
+            100% {
+                transform: rotateX(360deg);
+            }
         }
 
         .btn-secondary {
@@ -353,6 +445,9 @@
             border-radius: 12px;
             box-shadow: var(--shadow);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .about-card h3 {
@@ -363,7 +458,7 @@
 
         /* Timeline Styles */
         .education-timeline {
-            grid-column: 1 / -1;
+            height: 100%;
         }
 
         .timeline-container {
@@ -478,6 +573,194 @@
             color: var(--text-light);
             font-size: 0.9rem;
             line-height: 1.5;
+        }
+
+        /* Education & Experience Section - Rebuilt Layout */
+        .education-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+        }
+        
+        /* Desktop: Side-by-side layout */
+        @media (min-width: 768px) {
+            .education-content-wrapper {
+                flex-direction: row;
+                align-items: stretch;
+            }
+        }
+        
+        /* Education Timeline - Left Column */
+        .education-timeline-wrapper {
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .education-timeline-wrapper {
+                width: 55%;
+                flex: 0 0 55%;
+            }
+        }
+        
+        /* About Highlights - Right Column */
+        .about-highlights-wrapper {
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .about-highlights-wrapper {
+                width: 45%;
+                flex: 0 0 45%;
+            }
+        }
+
+        .about-highlights {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            min-height: 560px;
+            height: 100%;
+        }
+
+        .about-highlights .slide-layer {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: scale(0.95);
+        }
+
+        .about-highlights .slide-layer.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Background images removed - only portraits shown */
+        .about-highlights .slide-bg {
+            display: none;
+        }
+
+        .about-highlights .content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-dark);
+            background: transparent;
+        }
+
+        .about-highlights .circle-frame {
+            width: 240px;
+            height: 240px;
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 8px rgba(255, 77, 0, 0.1) inset;
+            margin-bottom: 1.5rem;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            background: var(--bg-white);
+        }
+
+        .about-highlights .circle-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-highlights .slide-layer.active .circle-frame {
+            animation: portraitPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes portraitPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .about-highlights .tagline {
+            letter-spacing: 0.08em;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .about-highlights .title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .about-highlights .excerpt {
+            max-width: 520px;
+            color: var(--text-light);
+        }
+
+        .about-highlights .read-more {
+            margin-top: 1.25rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 999px;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .about-highlights .read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 77, 0, 0.3);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .about-highlights .overlay {
+            position: absolute;
+            inset: 0;
+            display: none;
+            background: rgba(255, 255, 255, 0.98);
+            color: var(--text-dark);
+            z-index: 3;
+            padding: 2rem;
+            overflow: auto;
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+        }
+
+        [data-theme="dark"] .about-highlights .overlay {
+            background: rgba(15, 23, 42, 0.98);
+            color: var(--text-dark);
+        }
+
+        .about-highlights.expanded .overlay {
+            display: block;
+        }
+
+        .about-highlights .overlay-content {
+            max-width: 680px;
+            margin: 0 auto;
+            transform: translateY(6px);
+            animation: overlayRise 300ms ease forwards;
+        }
+
+        @keyframes overlayRise {
+            to { transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .about-highlights { min-height: 480px; }
         }
 
         /* Expertise Section */
@@ -1348,6 +1631,7 @@
                         <li><a href="#home">Home</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#work">Work</a></li>
+                        <li><a href="#expertise">Expertise</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
@@ -1408,9 +1692,12 @@
             <!-- Background Slideshow -->
             <div class="slideshow-container">
                 <div class="slide active" style="background-image: url('img.jpeg');"></div>
-                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=1920&h=1080&fit=crop');"></div>
-                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=1920&h=1080&fit=crop');"></div>
-                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1920&h=1080&fit=crop');"></div>
+                <!-- User-uploadable image: replace with your own 'img1.jpeg' -->
+                <div class="slide" style="background-image: url('img1.jpeg');"></div>
+                <!-- User-uploadable image: replace with your own 'img2.jpeg' -->
+                <div class="slide" style="background-image: url('img2.jpeg');"></div>
+                <!-- User-uploadable image: replace with your own 'img3.jpeg' -->
+                <div class="slide" style="background-image: url('img3.jpeg');"></div>
             </div>
             
             <!-- Overlay -->
@@ -1434,53 +1721,278 @@
         <!-- Education & Experience Section -->
         <div class="education-section">
             <div class="container">
-                <div class="about-card education-timeline">
-                    <h3>Education & Experience</h3>
-                    <div class="timeline-container">
-                        <!-- Timeline Item 1 -->
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-header">
-                                    <h4>SRM Institute of Science and Technology (SRMIST)</h4>
-                                    <span class="timeline-date">2024 — 2027</span>
+                <div class="education-content-wrapper">
+                    <!-- Education Timeline - Left Column -->
+                    <div class="education-timeline-wrapper">
+                        <div class="about-card education-timeline">
+                            <h3>Education & Experience</h3>
+                            <div class="timeline-container">
+                            <!-- Timeline Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-header">
+                                        <h4>SRM Institute of Science and Technology (SRMIST)</h4>
+                                        <span class="timeline-date">2024 — 2027</span>
+                                    </div>
+                                    <p class="timeline-title">Bachelor of Business Administration</p>
+                                    <div class="timeline-hover">
+                                        <p>Focusing on digital marketing strategies, business development, and startup ecosystem. 
+                                        Active in entrepreneurship clubs and pitch competitions.</p>
+                                    </div>
                                 </div>
-                                <p class="timeline-title">Bachelor of Business Administration</p>
-                                <div class="timeline-hover">
-                                    <p>Focusing on digital marketing strategies, business development, and startup ecosystem. 
-                                    Active in entrepreneurship clubs and pitch competitions.</p>
+                            </div>
+
+                            <!-- Timeline Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-header">
+                                        <h4>Institute of Venture Building (IVB)</h4>
+                                        <span class="timeline-date">2024 — 2027</span>
+                                    </div>
+                                    <p class="timeline-title">Marketing — Entrepreneurship/Entrepreneurial Studies</p>
+                                    <div class="timeline-hover">
+                                        <p>Completed foundation studies with focus on business fundamentals, 
+                                        economics, and management principles. GPA: 3.8/4.0</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 3 -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot internship"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-header">
+                                        <h4>Energy Alternatives India</h4>
+                                        <span class="timeline-date">Aug 2025 - Nov 2025</span>
+                                    </div>
+                                    <p class="timeline-title">Marketing Intern</p>
+                                    <div class="timeline-hover">
+                                        <p>Worked on social media campaigns, content creation, and analytics. 
+                                        Increased engagement by 40% and gained hands-on experience with marketing tools.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Highlights - Right Column -->
+                    <div class="about-highlights-wrapper">
+                        <div class="about-highlights" id="aboutHighlights">
+                        <!-- Slide 1: About Me -->
+                        <div class="slide-layer active" data-index="0">
+                            <div class="slide-bg"></div>
+                            <div class="content">
+                                <div class="circle-frame">
+                                    <img src="https://via.placeholder.com/500x500/0b0b12/ffffff?text=A" alt="About portrait">
+                                </div>
+                                <div class="tagline">The journey behind the mindset</div>
+                                <div class="title">About Me</div>
+                                <p class="excerpt">19-year-old builder focused on entrepreneurship, marketing, and shipping thoughtful experiments.</p>
+                                <button class="read-more" data-action="expand">Read more</button>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Energy Alternatives India -->
+                        <div class="slide-layer" data-index="1">
+                            <div class="slide-bg"></div>
+                            <div class="content">
+                                <div class="circle-frame">
+                                    <img src="https://via.placeholder.com/500x500/0b0b12/ffffff?text=EA" alt="Energy Alternatives India">
+                                </div>
+                                <div class="tagline">Building sustainable innovation</div>
+                                <div class="title">Energy Alternatives India</div>
+                                <p class="excerpt">Marketing Intern contributing to campaigns that amplified clean-energy awareness and adoption.</p>
+                                <button class="read-more" data-action="expand">Read more</button>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: IVB -->
+                        <div class="slide-layer" data-index="2">
+                            <div class="slide-bg"></div>
+                            <div class="content">
+                                <div class="circle-frame">
+                                    <img src="https://via.placeholder.com/500x500/0b0b12/ffffff?text=IVB" alt="IVB">
+                                </div>
+                                <div class="tagline">Foundation building</div>
+                                <div class="title">Institute of Venture Building</div>
+                                <p class="excerpt">Marketing and entrepreneurship foundation studies with focus on business fundamentals and management principles.</p>
+                                <button class="read-more" data-action="expand">Read more</button>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4: SRM -->
+                        <div class="slide-layer" data-index="3">
+                            <div class="slide-bg"></div>
+                            <div class="content">
+                                <div class="circle-frame">
+                                    <img src="https://via.placeholder.com/500x500/0b0b12/ffffff?text=SRM" alt="SRM">
+                                </div>
+                                <div class="tagline">The academic roots of ambition</div>
+                                <div class="title">SRM Institute</div>
+                                <p class="excerpt">Bachelor of Business Administration focusing on digital marketing strategies, business development, and startup ecosystem.</p>
+                                <button class="read-more" data-action="expand">Read more</button>
+                            </div>
+                        </div>
+
+                        <!-- Expanded overlay -->
+                        <div class="overlay" data-role="overlay">
+                            <div class="overlay-content">
+                                <h3 id="overlayTitle">About Me</h3>
+                                <p id="overlayBody">I enjoy building, iterating, and learning in public—bridging business and technology to create useful, human-centered work. This space highlights the context behind selected journeys.</p>
+                                <div style="height: 12px;"></div>
+                                <button class="read-more" data-action="collapse">Close</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="projects-section">
+        <div class="container">
+            <div class="projects-grid">
+                <!-- Left Content -->
+                <div class="projects-content">
+                    <div class="projects-text">
+                        <p class="projects-subtitle">30+ Experiments. One Builder.</p>
+                        <h2 class="projects-title">My <span class="accent-text">Work.</span></h2>
+                    </div>
+                    <div class="projects-buttons">
+                        <a href="#contact" class="btn btn-primary featured-work-btn">Featured Work</a>
+                        <div class="flip-text-container">
+                            <div class="flip-text">
+                                <span class="flip-text-front">20+ Presentations</span>
+                                <span class="flip-text-back">15+ Case Studies</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Scrolling Columns -->
+                <div class="scrolling-columns">
+                    <div class="column-container">
+                        <!-- Left Column - Scrolls Up -->
+                        <div class="scroll-column left-column">
+                            <div class="column-fade top"></div>
+                            <div class="column-fade bottom"></div>
+                            <div class="scroll-content">
+                                <div class="scroll-track left-scroll">
+                                    <!-- First set of cards -->
+                                <div class="project-card" style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop" alt="Brand Revival Campaign">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Marketing Lead</span>
+                                        <h3>Brand Revival Campaign</h3>
+                                        <p>200% social media growth</p>
+                                    </div>
+                                </div>
+                                <div class="project-card" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop" alt="Startup MVP Launch">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Co-Founder</span>
+                                        <h3>Startup MVP Launch</h3>
+                                        <p>Sustainable Fashion Platform</p>
+                                    </div>
+                                </div>
+                                <div class="project-card" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" alt="Market Research Study">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Business Analyst</span>
+                                        <h3>Market Research Study</h3>
+                                        <p>Tech Startup Analysis</p>
+                                    </div>
+                                </div>
+                                    <!-- Duplicate set for seamless loop -->
+                                <div class="project-card" style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop" alt="Brand Revival Campaign">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Marketing Lead</span>
+                                        <h3>Brand Revival Campaign</h3>
+                                        <p>200% social media growth</p>
+                                    </div>
+                                </div>
+                                <div class="project-card" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop" alt="Startup MVP Launch">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Co-Founder</span>
+                                        <h3>Startup MVP Launch</h3>
+                                        <p>Sustainable Fashion Platform</p>
+                                    </div>
+                                </div>
+                                <div class="project-card" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" alt="Market Research Study">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Business Analyst</span>
+                                        <h3>Market Research Study</h3>
+                                        <p>Tech Startup Analysis</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Timeline Item 2 -->
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-header">
-                                    <h4>Institute of Venture Building (IVB)</h4>
-                                    <span class="timeline-date">2024 — 2027</span>
+                        <!-- Right Column - Scrolls Down -->
+                        <div class="scroll-column right-column">
+                            <div class="column-fade top"></div>
+                            <div class="column-fade bottom"></div>
+                            <div class="scroll-content">
+                                <div class="scroll-track right-scroll">
+                                    <!-- First set of cards -->
+                                <div class="project-card" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=300&fit=crop" alt="Content Marketing Series">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Content Creator</span>
+                                        <h3>Content Marketing Series</h3>
+                                        <p>500K+ Impressions</p>
+                                    </div>
                                 </div>
-                                <p class="timeline-title">Marketing — Entrepreneurship/Entrepreneurial Studies</p>
-                                <div class="timeline-hover">
-                                    <p>Completed foundation studies with focus on business fundamentals, 
-                                    economics, and management principles. GPA: 3.8/4.0</p>
+                                <div class="project-card" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                                    <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=300&fit=crop" alt="Pitch Competition Winner">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Entrepreneur</span>
+                                        <h3>Pitch Competition Winner</h3>
+                                        <p>EdTech Innovation</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Timeline Item 3 -->
-                        <div class="timeline-item">
-                            <div class="timeline-dot internship"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-header">
-                                    <h4>Energy Alternatives India</h4>
-                                    <span class="timeline-date">Aug 2025 - Nov 2025</span>
+                                <div class="project-card" style="background: linear-gradient(135deg, #eab308, #ca8a04);">
+                                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Social Media Campaign">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Digital Marketer</span>
+                                        <h3>Social Media Campaign</h3>
+                                        <p>Viral Content Strategy</p>
+                                    </div>
                                 </div>
-                                <p class="timeline-title">Marketing Intern</p>
-                                <div class="timeline-hover">
-                                    <p>Worked on social media campaigns, content creation, and analytics. 
-                                    Increased engagement by 40% and gained hands-on experience with marketing tools.</p>
+                                    <!-- Duplicate set for seamless loop -->
+                                <div class="project-card" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=300&fit=crop" alt="Content Marketing Series">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Content Creator</span>
+                                        <h3>Content Marketing Series</h3>
+                                        <p>500K+ Impressions</p>
+                                    </div>
+                                </div>
+                                <div class="project-card" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                                    <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=300&fit=crop" alt="Pitch Competition Winner">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Entrepreneur</span>
+                                        <h3>Pitch Competition Winner</h3>
+                                        <p>EdTech Innovation</p>
+                                    </div>
+                                </div>
+                                <div class="project-card" style="background: linear-gradient(135deg, #eab308, #ca8a04);">
+                                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Social Media Campaign">
+                                    <div class="project-overlay">
+                                        <span class="project-badge">Digital Marketer</span>
+                                        <h3>Social Media Campaign</h3>
+                                        <p>Viral Content Strategy</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1499,55 +2011,41 @@
                     <div class="skill-icon">📊</div>
                     <h3>Digital Marketing</h3>
                     <p>Social media, <strong>content strategy</strong>, analytics</p>
-                    <div class="skill-description">
-                        <h4>Digital Marketing</h4>
-                        <p>Expert in creating compelling social media campaigns, developing content strategies that drive engagement, and analyzing performance metrics to optimize marketing efforts.</p>
-                    </div>
                 </div>
                 <div class="skill-block">
                     <div class="skill-icon">💼</div>
                     <h3>Business Strategy</h3>
                     <p>Market analysis, <strong>business planning</strong></p>
-                    <div class="skill-description">
-                        <h4>Business Strategy</h4>
-                        <p>Skilled in conducting comprehensive market research, developing strategic business plans, and identifying growth opportunities for startups and established companies.</p>
-                    </div>
                 </div>
                 <div class="skill-block">
                     <div class="skill-icon">🚀</div>
                     <h3>Entrepreneurship</h3>
                     <p>Startup development, <strong>innovation</strong></p>
-                    <div class="skill-description">
-                        <h4>Entrepreneurship</h4>
-                        <p>Passionate about building innovative solutions, developing startup concepts from ideation to execution, and creating value through entrepreneurial thinking.</p>
-                    </div>
                 </div>
                 <div class="skill-block">
                     <div class="skill-icon">📈</div>
                     <h3>Analytics</h3>
                     <p>Data analysis, <strong>performance metrics</strong></p>
-                    <div class="skill-description">
-                        <h4>Analytics</h4>
-                        <p>Proficient in data analysis tools and techniques, interpreting performance metrics, and using insights to drive data-driven decision making and business growth.</p>
-                    </div>
                 </div>
                 <div class="skill-block">
                     <div class="skill-icon">🎨</div>
                     <h3>Design Thinking</h3>
                     <p>User experience, <strong>creative problem solving</strong></p>
-                    <div class="skill-description">
-                        <h4>Design Thinking</h4>
-                        <p>Expert in user-centered design principles, creative problem-solving methodologies, and creating intuitive user experiences that solve real-world challenges.</p>
-                    </div>
                 </div>
                 <div class="skill-block">
                     <div class="skill-icon">🤝</div>
                     <h3>Leadership</h3>
                     <p>Team management, <strong>project coordination</strong></p>
-                    <div class="skill-description">
-                        <h4>Leadership</h4>
-                        <p>Experienced in leading cross-functional teams, managing complex projects, and coordinating efforts to deliver successful outcomes in fast-paced environments.</p>
-                    </div>
+                </div>
+                <div class="skill-block">
+                    <div class="skill-icon">💡</div>
+                    <h3>Innovation</h3>
+                    <p>Creative ideation, <strong>product development</strong></p>
+                </div>
+                <div class="skill-block">
+                    <div class="skill-icon">🔍</div>
+                    <h3>Market Research</h3>
+                    <p>Consumer insights, <strong>trend analysis</strong></p>
                 </div>
             </div>
             
@@ -1585,204 +2083,6 @@
                     <span class="tool-pill">Monday.com</span>
                     <span class="tool-pill">ClickUp</span>
                     <span class="tool-pill">Figma</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Work Section -->
-    <section id="work" class="projects-section">
-        <div class="container">
-            <div class="projects-grid">
-                <!-- Left Content -->
-                <div class="projects-content">
-                    <div class="projects-text">
-                        <p class="projects-subtitle">30+ Experiments. One Builder.</p>
-                        <h2 class="projects-title">My <span class="accent-text">Work.</span></h2>
-                    </div>
-                    <div class="projects-buttons">
-                        <a href="#contact" class="btn btn-primary">Featured Work</a>
-                        <a href="#about" class="btn btn-outline">20+ Presentations</a>
-                        <a href="#about" class="btn btn-outline">15+ Case Studies</a>
-                    </div>
-                </div>
-
-                <!-- Right Scrolling Columns -->
-                <div class="scrolling-columns">
-                    <div class="column-container">
-                        <!-- Left Column - Scrolls Up -->
-                        <div class="scroll-column left-column">
-                            <div class="column-fade top"></div>
-                            <div class="column-fade bottom"></div>
-                            <div class="scroll-content">
-                                <div class="scroll-track left-scroll">
-                                    <!-- First set of cards -->
-                                    <div class="project-card" style="background: linear-gradient(135deg, #f97316, #ea580c);">
-                                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop" alt="Brand Revival Campaign">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Marketing Lead</span>
-                                            <h3>Brand Revival Campaign</h3>
-                                            <p>200% social media growth</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
-                                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop" alt="Startup MVP Launch">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Co-Founder</span>
-                                            <h3>Startup MVP Launch</h3>
-                                            <p>Sustainable Fashion Platform</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-                                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" alt="Market Research Study">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Business Analyst</span>
-                                            <h3>Market Research Study</h3>
-                                            <p>Tech Startup Analysis</p>
-                                        </div>
-                                    </div>
-                                    <!-- Duplicate set for seamless loop -->
-                                    <div class="project-card" style="background: linear-gradient(135deg, #f97316, #ea580c);">
-                                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop" alt="Brand Revival Campaign">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Marketing Lead</span>
-                                            <h3>Brand Revival Campaign</h3>
-                                            <p>200% social media growth</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
-                                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop" alt="Startup MVP Launch">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Co-Founder</span>
-                                            <h3>Startup MVP Launch</h3>
-                                            <p>Sustainable Fashion Platform</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-                                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" alt="Market Research Study">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Business Analyst</span>
-                                            <h3>Market Research Study</h3>
-                                            <p>Tech Startup Analysis</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Right Column - Scrolls Down -->
-                        <div class="scroll-column right-column">
-                            <div class="column-fade top"></div>
-                            <div class="column-fade bottom"></div>
-                            <div class="scroll-content">
-                                <div class="scroll-track right-scroll">
-                                    <!-- First set of cards -->
-                                    <div class="project-card" style="background: linear-gradient(135deg, #10b981, #059669);">
-                                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=300&fit=crop" alt="Content Marketing Series">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Content Creator</span>
-                                            <h3>Content Marketing Series</h3>
-                                            <p>500K+ Impressions</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #ec4899, #db2777);">
-                                        <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=300&fit=crop" alt="Pitch Competition Winner">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Entrepreneur</span>
-                                            <h3>Pitch Competition Winner</h3>
-                                            <p>EdTech Innovation</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #eab308, #ca8a04);">
-                                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Social Media Campaign">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Digital Marketer</span>
-                                            <h3>Social Media Campaign</h3>
-                                            <p>Viral Content Strategy</p>
-                                        </div>
-                                    </div>
-                                    <!-- Duplicate set for seamless loop -->
-                                    <div class="project-card" style="background: linear-gradient(135deg, #10b981, #059669);">
-                                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=300&fit=crop" alt="Content Marketing Series">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Content Creator</span>
-                                            <h3>Content Marketing Series</h3>
-                                            <p>500K+ Impressions</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #ec4899, #db2777);">
-                                        <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=300&fit=crop" alt="Pitch Competition Winner">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Entrepreneur</span>
-                                            <h3>Pitch Competition Winner</h3>
-                                            <p>EdTech Innovation</p>
-                                        </div>
-                                    </div>
-                                    <div class="project-card" style="background: linear-gradient(135deg, #eab308, #ca8a04);">
-                                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Social Media Campaign">
-                                        <div class="project-overlay">
-                                            <span class="project-badge">Digital Marketer</span>
-                                            <h3>Social Media Campaign</h3>
-                                            <p>Viral Content Strategy</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Buzz Section -->
-    <section id="buzz" class="buzz-section">
-        <div class="container">
-            <h2 class="section-title">Words & Buzz</h2>
-            <div class="buzz-feed">
-                <div class="buzz-track">
-                    <div class="buzz-item">
-                        <div class="buzz-avatar">JS</div>
-                        <div class="buzz-content">
-                            <div class="buzz-author">John Smith</div>
-                            <div class="buzz-text">"Ameen's marketing insights are exceptional!"</div>
-                        </div>
-                    </div>
-                    <div class="buzz-item">
-                        <div class="buzz-avatar">MS</div>
-                        <div class="buzz-content">
-                            <div class="buzz-author">Maria Santos</div>
-                            <div class="buzz-text">"Great entrepreneurial mindset and execution."</div>
-                        </div>
-                    </div>
-                    <div class="buzz-item">
-                        <div class="buzz-avatar">AK</div>
-                        <div class="buzz-content">
-                            <div class="buzz-author">Alex Kim</div>
-                            <div class="buzz-text">"Impressive business acumen for his age."</div>
-                        </div>
-                    </div>
-                    <div class="buzz-item">
-                        <div class="buzz-avatar">LR</div>
-                        <div class="buzz-content">
-                            <div class="buzz-author">Lisa Rodriguez</div>
-                            <div class="buzz-text">"Creative problem solver with great potential."</div>
-                        </div>
-                    </div>
-                    <div class="buzz-item">
-                        <div class="buzz-avatar">DT</div>
-                        <div class="buzz-content">
-                            <div class="buzz-author">David Thompson</div>
-                            <div class="buzz-text">"Excellent communication and leadership skills."</div>
-                        </div>
-                    </div>
-                    <div class="buzz-item">
-                        <div class="buzz-avatar">JS</div>
-                        <div class="buzz-content">
-                            <div class="buzz-author">John Smith</div>
-                            <div class="buzz-text">"Ameen's marketing insights are exceptional!"</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1970,6 +2270,147 @@
 
         // Initialize about slideshow
         new AboutSlideshow();
+
+        // About Highlights (Education right column) - autonomous slideshow with 4 portraits
+        class AboutHighlights {
+            constructor(rootId) {
+                this.root = document.getElementById(rootId);
+                if (!this.root) return;
+                this.slides = Array.from(this.root.querySelectorAll('.slide-layer'));
+                this.overlay = this.root.querySelector('[data-role="overlay"]');
+                this.overlayTitle = this.root.querySelector('#overlayTitle');
+                this.overlayBody = this.root.querySelector('#overlayBody');
+                this.current = 0;
+                this.intervalMs = 3000; // 3 seconds rotation
+                this.timer = null;
+                this.isExpanded = false;
+                this.copy = [
+                    {
+                        title: 'About Me',
+                        body: 'Driven builder with a marketing and entrepreneurship focus. I love crafting experiments, learning loops, and finding traction through clear narrative and design.'
+                    },
+                    {
+                        title: 'Energy Alternatives India',
+                        body: 'Worked on social and content initiatives supporting sustainable solutions—growing awareness and engagement around clean-energy stories.'
+                    },
+                    {
+                        title: 'Institute of Venture Building',
+                        body: 'Marketing and entrepreneurship foundation studies with focus on business fundamentals, economics, and management principles. GPA: 3.8/4.0'
+                    },
+                    {
+                        title: 'SRM Institute',
+                        body: 'Bachelor of Business Administration focusing on digital marketing strategies, business development, and startup ecosystem. Active in entrepreneurship clubs and pitch competitions.'
+                    }
+                ];
+                this.init();
+            }
+
+            init() {
+                if (this.slides.length === 0) return;
+                // Pause rotation on section hover
+                this.root.addEventListener('mouseenter', () => this.pause());
+                this.root.addEventListener('mouseleave', () => this.resume());
+
+                this.root.querySelectorAll('[data-action="expand"]').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.expand();
+                    });
+                });
+                const collapseBtn = this.root.querySelector('[data-action="collapse"]');
+                if (collapseBtn) {
+                    collapseBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.collapse();
+                    });
+                }
+
+                this.applyActive(0);
+                this.start();
+            }
+
+            start() {
+                this.clear();
+                this.timer = setInterval(() => {
+                    if (this.isExpanded) return; // do not rotate while expanded
+                    const next = (this.current + 1) % this.slides.length;
+                    this.applyActive(next);
+                }, this.intervalMs);
+            }
+
+            clear() { if (this.timer) { clearInterval(this.timer); this.timer = null; } }
+            pause() { this.clear(); }
+            resume() { if (!this.isExpanded) this.start(); }
+
+            applyActive(index) {
+                this.slides[this.current].classList.remove('active');
+                this.current = index;
+                this.slides[this.current].classList.add('active');
+                // Update overlay content for current slide
+                const { title, body } = this.copy[this.current] || {};
+                if (this.overlayTitle && title) this.overlayTitle.textContent = title;
+                if (this.overlayBody && body) this.overlayBody.textContent = body;
+            }
+
+            expand() {
+                // Update overlay content before expanding
+                const { title, body } = this.copy[this.current] || {};
+                if (this.overlayTitle && title) this.overlayTitle.textContent = title;
+                if (this.overlayBody && body) this.overlayBody.textContent = body;
+                this.isExpanded = true;
+                this.pause();
+                this.root.classList.add('expanded');
+            }
+
+            collapse() {
+                this.isExpanded = false;
+                this.root.classList.remove('expanded');
+                this.resume();
+            }
+        }
+
+        new AboutHighlights('aboutHighlights');
+
+        // Ensure Education section side-by-side layout works
+        function ensureEducationLayout() {
+            const wrapper = document.querySelector('.education-content-wrapper');
+            const left = document.querySelector('.education-timeline-wrapper');
+            const right = document.querySelector('.about-highlights-wrapper');
+            
+            if (wrapper && left && right) {
+                const width = window.innerWidth || document.documentElement.clientWidth;
+                const isDesktop = width >= 768;
+                
+                if (isDesktop) {
+                    wrapper.style.display = 'flex';
+                    wrapper.style.flexDirection = 'row';
+                    wrapper.style.gap = '2rem';
+                    wrapper.style.alignItems = 'stretch';
+                    left.style.width = '55%';
+                    left.style.flex = '0 0 55%';
+                    right.style.width = '45%';
+                    right.style.flex = '0 0 45%';
+                } else {
+                    wrapper.style.display = 'flex';
+                    wrapper.style.flexDirection = 'column';
+                    wrapper.style.gap = '2rem';
+                    left.style.width = '100%';
+                    right.style.width = '100%';
+                }
+            }
+        }
+        
+        // Run on load and resize
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', ensureEducationLayout);
+        } else {
+            ensureEducationLayout();
+        }
+        window.addEventListener('load', ensureEducationLayout);
+        window.addEventListener('resize', () => {
+            clearTimeout(window.educationResizeTimeout);
+            window.educationResizeTimeout = setTimeout(ensureEducationLayout, 100);
+        });
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
